@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import * as Font from 'expo-font';
+import Login from './screens/login';
+import AppLoading from 'expo-app-loading';
+
+const getFonts = () => {
+  return Font.loadAsync({
+    'ZillaSlab-Bold': require('./assets/fonts/ZillaSlab-Bold.ttf'),
+    'ZillaSlab-Light': require('./assets/fonts/ZillaSlab-Light.ttf')
+  });
+};
+
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [fontsLoaded, setFontsLoaded] = useState(false); 
+
+  if (fontsLoaded) {
+    return (
+      <Login />
+    );
+  } else {
+    return(
+      <AppLoading 
+        startAsync={getFonts}
+        onFinish={() => setFontsLoaded(true)}
+        onError={(err) => console.log(err)}
+      />
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+
